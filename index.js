@@ -1,5 +1,6 @@
 const creds = require('./creds.js');
 const puppeteer = require('puppeteer');
+var readlineSync = require('readline-sync');
 
 async function run() {
   const browser = await puppeteer.launch({
@@ -17,49 +18,100 @@ async function run() {
   const quarterSelect = '.select2-choice';
   const recentQuarter = '.select2-results-dept-0:first-of-type';
   const continueButton = '#term-go';
-  const classCells = 'tr.odd:nth-child(1) > td:nth-child(2)';
-  
+  const courseSearchBox = '#s2id_autogen7';
+  const catalogSearchButton = '#search-go';
 
   // Click and fill out username field
   await page.click(fieldUsername);
   await page.keyboard.type(creds.username);
-  
+  console.log('Username field filled.');
+
   // Click and fill out password field
   await page.click(fieldPassword);
   await page.keyboard.type(creds.password);
+  console.log('Password field filled.');
 
   // Log in. We in boys
   await page.click(loginButton);
   await page.waitFor(3 * 1000);
-  
+  console.log('Logged in.');
+
+  console.log('Navigating to registration services.');
   await page.goto('https://registrationssb.ucr.edu/StudentRegistrationSsb/ssb/registration/registration');
   await page.waitForSelector(registerLink);
 
   // Click 'Register' link in Banner 
   await page.click(registerLink);
-  await page.waitForNavigation();
-  await page.waitFor(1 * 1000);
-
+  await page.waitForSelector(quarterSelect);
+  await page.waitFor(2 * 1000);
   // Opens dropdown menu
   await page.click(quarterSelect);
   await page.waitForSelector(recentQuarter);
-  
   // Selects first quarter in list
   await page.click(recentQuarter);
   await page.waitForSelector(continueButton);
-
   // Confirmation of quarter selection
   await page.click(continueButton);
-  await page.waitFor(classCells);
+  await page.waitForSelector(courseSearchBox);
+  console.log('Selected most recent quarter');
 
-  var cells = page.$$(classCells);
 
-  for (var i = 0; i < cells.length; i++) {
-    console.log(cells[i].innerText);
+  await page.click(courseSearchBox);
+
+  for (var i = 0; i < courseList.length; i++) {
+    await page.keyboard.type(courseList[i]);
+    await page.waitFor(1.5 * 1000);
+    await page.keyboard.press('Enter');
   }
+
+  await page.click(catalogSearchButton);
+  await page.waitForNavigation();
 
 }
 
 
+console.log('Welcome to The C\n');
+var command;
+var courseList = [];
 
-run();
+while(command != 'run') {
+  console.log('Commands:\n');
+  console.log('\"add\": Add a course to your registration list.');
+  console.log('\"list\": List courses you queued up.');
+  console.log('\"run\": Run The C.');
+  console.log('\"exit\": Exit The C.');
+  console.log('Press the key combination \"control + C\" at any time to abort the process.');
+
+  command = readlineSync.question('\nEnter command: ');
+  console.log('\n');
+  if (command == 'add') {
+    console.log('Type your search query with its subject and course number.');
+    console.log('Example: \"CS061\" (Without quotes)\n');
+    var classToRegisterFor = readlineSync.question('Course to register for: ');
+    courseList.push(classToRegisterFor);
+  }
+
+  else if (command == 'list') {
+    console.log('Queue contains:\n');
+    for (var i = 0; i < courseList.length; i++) {
+      console.log(courseList[i]);
+    }
+    console.log();
+  }
+
+  else if (command == 'run') {
+    console.log('Running the C'); 
+  }
+
+  else if (command == 'exit') {
+    console.log('Exiting The C');
+    return;
+ }
+  else {
+    console.log('Invalid command. Type \"exit\" to exit the software.');
+  }
+}
+
+if (command == 'run') {
+  run();
+}
