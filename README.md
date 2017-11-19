@@ -29,11 +29,11 @@ Clone this repository to your local machine.
 
 Navigate to the newly-cloned directory.
 
-`cd the-C`
+`$ cd the-C`
 
 Download dependencies. Shouldn't take too long.
 
-`npm install`
+`$ npm install`
 
 Create an empty file for your credentials.
 
@@ -52,5 +52,5 @@ module.exports = {
 
 Run it.
 
-`node index.js`
+`$ node index.js`
 
