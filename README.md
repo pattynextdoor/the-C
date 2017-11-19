@@ -1,11 +1,14 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-gold.svg)](https://opensource.org/licenses/MIT)
 
 # The C 
-> The C autonomously registers for a planned schedule at UC Riverside through R'Web and the Banner service.
+> The C autonomously registers for a planned schedule at UC Riverside through R'Web and the Banner service. 
+<img style="float: right;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/BigC_Box_Springs_Mountain.jpg/220px-BigC_Box_Springs_Mountain.jpg" >
+
+
 
 #### Written by:
 
-Patrick Tumbucon ([Github](https://github.com/ptumb001))
+Patrick Tumbucon ([Github](https://github.com/ptumb001)) 
 
 ## Brief
 
@@ -38,7 +41,7 @@ Create an empty file for your credentials.
 
 Open `creds.js` in a text editor, paste this code in, and save.
 
-```
+```javascript
 module.exports = {
   username: '<yourUserName>',
   password: '<yourPassword>'
