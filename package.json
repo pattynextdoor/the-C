@@ -9,6 +9,7 @@
   "author": "Patrick Tumbucon",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^0.13.0"
+    "puppeteer": "^0.13.0",
+    "readline-sync": "^1.4.7"
   }
 }
