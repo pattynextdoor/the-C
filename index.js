@@ -7,7 +7,7 @@ async function run() {
     headless: false
   });
   const page = await browser.newPage();
-
+  await page.setViewport({width: 1280, height: 1000});
   await page.goto('https://auth.ucr.edu/cas/login?service=https://portal.ucr.edu/uPortal/Login');
 
   const fieldUsername = '#username';
@@ -50,6 +50,7 @@ async function run() {
   // Selects first quarter in list
   await page.click(recentQuarter);
   await page.waitForSelector(continueButton);
+  await page.waitFor(0.5 * 1000);
   // Confirmation of quarter selection
   await page.click(continueButton);
   await page.waitForSelector(courseSearchBox);
@@ -65,10 +66,11 @@ async function run() {
   }
 
   await page.click(catalogSearchButton);
-  await page.waitForNavigation();
+  await page.waitFor(4 * 1000);
 
+  await page.screenshot({path: 'ss.png'});
+  //await browser.close();
 }
-
 
 console.log('Welcome to The C\n');
 var command;
@@ -80,7 +82,7 @@ while(command != 'run') {
   console.log('\"list\": List courses you queued up.');
   console.log('\"run\": Run The C.');
   console.log('\"exit\": Exit The C.');
-  console.log('Press the key combination \"control + C\" at any time to abort the process.');
+  console.log('Press the key combination \"control + c\" at any time to abort the process.');
 
   command = readlineSync.question('\nEnter command: ');
   console.log('\n');
