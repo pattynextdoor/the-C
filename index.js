@@ -90,8 +90,31 @@ while(command != 'run') {
     console.log('Type your search query with its subject and course number.');
     console.log('Example: \"CS061\" (Without quotes)\n');
     var classToRegisterFor = readlineSync.question('Course to register for: ');
-    courseList.push(classToRegisterFor);
-  }
+    console.log('\nType section number in a 3-digit format.');
+    console.log('Examples: \"042\", \"001\"');
+    var section = readlineSync.question('Section: ');
+
+    // If courseList is empty
+    if (courseList.length == 0) {
+      courseList.push({
+        className: classToRegisterFor,
+        sections: [section]
+      });
+    }
+    else {
+      for (var i = 0; i < courseList.length; i++) {
+        if (courseList.at(i).className == classToRegisterFor) {
+          courseList.at(i).sections.push(section);
+        }
+        else if (i == courseList.length - 1) {
+          courseList.push({
+            className: classToRegisterFor,
+            sections: [section]
+          });
+        }
+      }
+    }
+  } 
 
   else if (command == 'list') {
     console.log('Queue contains:\n');
